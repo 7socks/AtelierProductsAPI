@@ -7,6 +7,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 
+app.get('/products/:id', () => {
+  db.getProduct(id)
+    .then((data) => {
+      console.log('Result from db:', data);
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send();
+    });
+})
 
 
 app.listen(3300, () => {
