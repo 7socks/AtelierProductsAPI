@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 
-app.get('/products/:id', () => {
+app.get('/products/:id', (req, res) => {
   db.getProduct(id)
     .then((data) => {
       console.log('Result from db:', data);
@@ -17,6 +17,28 @@ app.get('/products/:id', () => {
       console.error(err);
       res.status(500).send();
     });
+});
+
+app.get('/styles/:id', (req, res) => {
+  db.getStyles(id)
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send();
+    })
+});
+
+app.get('/related/:id', (req, res) => {
+  db.getRelated(id)
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send();
+    })
 })
 
 
