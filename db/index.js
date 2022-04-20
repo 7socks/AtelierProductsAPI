@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const connection = mongoose.createConnection();
+
 const productSchema = new mongoose.Schema({
   id: Number,
   name: String,
@@ -29,3 +31,17 @@ const productSchema = new mongoose.Schema({
     id: Number
   }]
 });
+
+const product = mongoose.model('Product', productSchema);
+
+module.exports.getProduct = (id) => {
+  return new Promise((resolve, reject) => {
+    product.findOne({id}, (data, err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+};
