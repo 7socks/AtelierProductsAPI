@@ -4,7 +4,6 @@
   "description": "Microservice for products API",
   "main": "index.js",
   "scripts": {
-    "db": "node db/index.js",
     "start": "node server/server.js"
   },
   "repository": {
@@ -18,6 +17,7 @@
   },
   "homepage": "https://github.com/SpicyCumin/cumin-api-po#readme",
   "dependencies": {
+    "express": "^4.17.3",
     "mongoose": "^6.3.0"
   }
 }
