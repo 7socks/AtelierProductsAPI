@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
 const { Product, Style } = require('./models.js');
 
+const get = (id) => {
+  return Product.findOne({ id: id })
+    .then((product) => {
+      return product ? product : null;
+    });
+};
+
 module.exports.getProduct = (id) => {
-  return Product.findOne({id: id})
+  return get(id)
     .then((product) => {
       if (product) {
         return {
@@ -13,7 +20,7 @@ module.exports.getProduct = (id) => {
           category: product.category,
           default_price: product.default_price,
           features: product.features
-        };
+        }
       } else {
         return null;
       }
@@ -21,20 +28,15 @@ module.exports.getProduct = (id) => {
 };
 
 module.exports.getRelated = (id) => {
-  return Product.findOne({product_id: id})
+  return get(id)
     .then((product) => {
-      if (product) {
-        return product.related;
-      } else {
-        return null;
-      }
+      return product ? product.related : null;
     });
 }
 
 module.exports.getStyles = (id) => {
-  return Style.find({product_id: id})
-    .then((styles) => {
-      // format results before returning
-      return styles;
-    })
+  return get(id)
+    .then((product) => {
+      return product ? product.styles : null;
+    });
 };

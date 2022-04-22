@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/products');
+mongoose.connect(`mongodb://${process.env.DB_HOST}/products`);
 
 class OptionalNumber extends mongoose.SchemaType {
   constructor(key, options) {
@@ -50,10 +50,9 @@ const skuSchema = new mongoose.Schema({
 
 const styleSchema = new mongoose.Schema({
   id: Number,
-  product_id: Number,
   name: String,
   sale_price: OptionalNumber,
-  original_price: OptionalNumber,
+  original_price: Number,
   default: Boolean,
   photos: {
     type: [ photoSchema ],
@@ -83,6 +82,10 @@ const productSchema = new mongoose.Schema({
   },
   related: {
     type: [ Number ],
+    default: []
+  },
+  styles: {
+    type: [ styleSchema ],
     default: []
   }
 });

@@ -17,6 +17,20 @@ db.products.aggregate([{
   $unset: ["features._id", "features.id", "features.product_id"]
 }])
 
+// Final version:
+db.products.aggregate([{
+  $lookup: {
+    from: "features",
+    localField: "id",
+    foreignField: "product_id",
+    as: "features"
+  }
+}, {
+  $unset: ["features._id", "features.id", "features.product_id"]
+}, {
+  $merge: "products"
+}])
+
 
 
 db.products.aggregate([{
@@ -69,27 +83,72 @@ db.styles.aggregate([{
   }
 }, {
   $unset: ["photos._id", "photos.id", "photos.styleId"]
+}, {
+  $merge: "styles"
 }])
 
-
-// Final version:
-db.products.aggregate([{
-  $lookup: {
-    from: "features",
-    localField: "id",
-    foreignField: "product_id",
-    as: "features"
-  }
-}, {
-  $unset: ["features._id", "features.id", "features.product_id"]
-}, {
-  $merge: "products"
-}])
 
 
 
 // Merging styles into products... is it a good idea?
 db.styles.createIndex({ productId: 1 })
+
+db.products.aggregate([{
+  $lookup: {
+    from: "styles",
+    localField: "id",
+    foreignField: "productId",
+    as: "styles"
+  }
+}, {
+  $unset: ["styles._id", "styles.id", "styles.productId"]
+}, {
+  $merge: "products"
+}])
+
+db.products.aggregate([{
+  $lookup: {
+    from: "styles",
+    localField: "id",
+    foreignField: "productId",
+    as: "styles"
+  }
+}, {
+  $project: {
+    id: 1,
+    name: 1,
+    slogan: 1,
+    description: 1,
+    category: 1,
+    default_price: 1,
+    features: {
+      feature: 1,
+      value: 1
+    },
+    related: 1,
+    styles: {
+      name: 1,
+      sale_price: 1,
+      original_price: 1,
+      default_style: 1,
+      skus: {
+        $map: {
+          input: "$styles.skus",
+          as: "sku",
+          in: {
+            "size": "$$sku.size",
+            "quantity": "$$sku.quantity"
+          }
+        }
+      },
+      photos: {
+        url: 1,
+        thumbnail_url: 1
+      }
+    }
+  }
+}])
+
 db.products.aggregate([{
   $lookup: {
     from: "styles",
