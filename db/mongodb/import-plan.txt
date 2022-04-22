@@ -41,7 +41,7 @@ db.products.aggregate([{
 
 mongoimport --db=products --collection=styles --type=csv --headerline --file=styles.csv
 mongoimport --db=products --collection=skus --type=csv --headerline --file=skus.csv
-mongoimport --db=products --collection=photos --type=csv --headerline --file=photos.csv
+mongoimport --db=products --collection=photos --type=csv --headerline --file=photos_2.csv
 
 // mock up merges (check csvs for field names)
 db.styles.aggregate([{
