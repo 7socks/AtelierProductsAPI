@@ -27,7 +27,7 @@ class OptionalString extends mongoose.SchemaType {
   cast(val) {
     if (val === 'null') {
       return null;
-    } else if (typeof val === string) {
+    } else if (typeof val === 'string') {
       return val;
     } else {
       throw new Error('OptionalString: ' + JSON.stringify(val) + ' is not null or a string');
@@ -39,8 +39,8 @@ mongoose.Schema.Types.OptionalString = OptionalString;
 mongoose.Schema.Types.OptionalNumber = OptionalNumber;
 
 const photoSchema = new mongoose.Schema({
-  thumbnail_url: OptionalString,
-  url: OptionalString
+  url: OptionalString,
+  thumbnail_url: OptionalString
 });
 
 const skuSchema = new mongoose.Schema({
@@ -66,7 +66,7 @@ const styleSchema = new mongoose.Schema({
 
 const featureSchema = new mongoose.Schema({
   feature: String,
-  value: mongoose.Schema.Types.Mixed
+  value: OptionalString
 });
 
 const productSchema = new mongoose.Schema({

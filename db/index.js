@@ -37,6 +37,7 @@ module.exports.getRelated = (id) => {
 module.exports.getStyles = (id) => {
   return get(id)
     .then((product) => {
+      console.log(product.styles);
       return product ? product.styles : null;
     });
 };
