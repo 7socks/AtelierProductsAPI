@@ -30,14 +30,13 @@ module.exports.getProduct = (id) => {
 module.exports.getRelated = (id) => {
   return get(id)
     .then((product) => {
-      return product ? product.related : null;
+      return product ? product.related : [];
     });
 }
 
 module.exports.getStyles = (id) => {
   return get(id)
     .then((product) => {
-      console.log(product.styles);
-      return product ? product.styles : null;
+      return product ? product.styles : [];
     });
 };
