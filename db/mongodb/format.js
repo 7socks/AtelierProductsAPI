@@ -27,9 +27,9 @@ const collectLine = async (chunk) => {
           console.log('Fixed a line');
         }
       }
-      newlines.push(cols.join(',' + '\n'));
+      newlines.push(cols.join(','));
     }
-    line = newlines.join();
+    line = newlines.join('\n');
   }
 
   if (line.includes("\n")) {

@@ -10,7 +10,11 @@ app.use(express.urlencoded({ extended: true}));
 app.get('/products/:id', (req, res) => {
   db.getProduct(id)
     .then((data) => {
-      res.status(200).send(data);
+      if (data) {
+        res.status(200).send(data);
+      } else {
+        res.status.(404).send();
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -32,7 +36,11 @@ app.get('/styles/:id', (req, res) => {
 app.get('/related/:id', (req, res) => {
   db.getProduct(id)
     .then((data) => {
-      res.status(200).send(data.related);
+      if (data) => {
+        res.status(200).send(data.related);
+      } else {
+        res.status(404).send();
+      }
     })
     .catch((err) => {
       console.error(err);

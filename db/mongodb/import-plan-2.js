@@ -17,20 +17,7 @@ db.products.aggregate([{
   $unset: ["features._id", "features.id", "features.product_id"]
 }])
 
-db.products.aggregate([{
-  $lookup: {
-    from: "related",
-    localField: "id",
-    foreignField: "current_product_id",
-    as: "related"
-  }
-}, {
-  $map: {
-    input: "$related",
-    as: "related",
-    in: "$$related.related_product_id"
-  }
-}])
+
 
 db.products.aggregate([{
   $lookup: {
@@ -40,7 +27,24 @@ db.products.aggregate([{
     as: "related"
   }
 }, {
-  $unset: ["related._id", "related.current_product_id"]
+  $project: {
+    id: 1,
+    name: 1,
+    slogan: 1,
+    description: 1,
+    category: 1,
+    default_price: 1,
+    features: 1,
+    related: {
+      $map: {
+        input: "$related",
+        as: "related",
+        in: "$$related.related_product_id"
+      }
+    }
+  }
+}, {
+    $merge: "products"
 }])
 
 db.styles.aggregate([{
@@ -52,6 +56,8 @@ db.styles.aggregate([{
   }
 }, {
   $unset: ["skus._id", "skus.id", "skus.styleId"]
+}, {
+  $merge: "styles"
 }])
 
 db.styles.aggregate([{

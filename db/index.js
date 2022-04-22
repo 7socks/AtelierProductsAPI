@@ -8,7 +8,11 @@ module.exports.getProduct = (id) => {
         return {
           id: product.id,
           name: product.name,
-          description: product.name
+          slogan: product.slogan,
+          description: product.name,
+          category: product.category,
+          default_price: product.default_price,
+          features: product.features
         };
       } else {
         return null;
@@ -16,16 +20,17 @@ module.exports.getProduct = (id) => {
     });
 };
 
-name: String,
-  slogan: String,
-  description: String,
-  category: String,
-  default_price: Number,
-  features: {
-    type: [ featureSchema ],
-    default: []
-  },
-  related
+module.exports.getRelated = (id) => {
+  return Product.findOne({product_id: id})
+    .then((product) => {
+      if (product) {
+        return product.related;
+      } else {
+        return null;
+      }
+    });
+}
+
 module.exports.getStyles = (id) => {
   return Style.find({product_id: id})
     .then((styles) => {
