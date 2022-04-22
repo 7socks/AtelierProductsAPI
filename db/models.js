@@ -51,8 +51,8 @@ const skuSchema = new mongoose.Schema({
 const styleSchema = new mongoose.Schema({
   id: Number,
   name: String,
-  sale_price: OptionalNumber,
-  original_price: Number,
+  sale_price: OptionalString,
+  original_price: String,
   default: Boolean,
   photos: {
     type: [ photoSchema ],
