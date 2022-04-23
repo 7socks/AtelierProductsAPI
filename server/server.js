@@ -16,6 +16,26 @@ const checkId = (req, res, next) => {
   }
 };
 
+const formatStyle = (style) => {
+  if (style.photos.length === 0) {
+    style.photos.push({
+      url: null,
+      thumbnail_url: null
+    })
+  }
+
+  if (style.skus.length === 0) {
+    style.skus = {
+      "null": {
+        quantity: null,
+        size: null
+      }
+    };
+  }
+
+  return style;
+};
+
 
 app.get('/products/:id', checkId, (req, res) => {
   db.getProduct(req.params.id)
@@ -39,7 +59,9 @@ app.get('/styles/:id', checkId, (req, res) => {
       if (data) {
         res.status(200).send({
           product_id: (req.params.id + 37310).toString(),
-          results: data
+          results: data.map((style) => {
+            return formatStyle(style);
+          })
         });
       } else {
         res.status(400).send();
