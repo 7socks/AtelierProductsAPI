@@ -4,7 +4,8 @@
   "description": "Microservice for products API",
   "main": "index.js",
   "scripts": {
-    "server": "node server/server.js"
+    "server": "node server/server.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,11 @@
   },
   "devDependencies": {
     "@fast-csv/parse": "^4.3.6",
-    "fast-csv": "^4.3.6"
+    "axios": "^0.26.1",
+    "fast-csv": "^4.3.6",
+    "jest": "^27.5.1"
+  },
+  "jest": {
+    "rootDir": "test/jest"
   }
 }

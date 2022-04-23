@@ -20,7 +20,7 @@ module.exports.getProduct = (id) => {
           category: product.category,
           default_price: product.default_price,
           features: product.features
-        }
+        };
       } else {
         return null;
       }
@@ -37,6 +37,22 @@ module.exports.getRelated = (id) => {
 module.exports.getStyles = (id) => {
   return get(id)
     .then((product) => {
-      return product ? product.styles : [];
+      if (product) {
+        var results = [];
+        for (var i = 0; i < product.styles.length; i++) {
+          var style = product.styles[i];
+          results.push({
+            name: style.name,
+            original_price: style.original_price,
+            sale_price: style.sale_price,
+            'default?': !!style.default_style,
+            photos: style.photos.slice(),
+            skus: style.skus.slice()
+          })
+        }
+        return results;
+      } else {
+        return null;
+      }
     });
 };

@@ -16,12 +16,12 @@ const checkId = (req, res, next) => {
   }
 };
 
-const formatStyle = (style) => {
+const formatStyle = (style, i) => {
   if (style.photos.length === 0) {
-    style.photos.push({
+    style.photos = [{
       url: null,
       thumbnail_url: null
-    })
+    }];
   }
 
   if (style.skus.length === 0) {
@@ -32,6 +32,8 @@ const formatStyle = (style) => {
       }
     };
   }
+
+  style.style_id = i + 1;
 
   return style;
 };
@@ -59,8 +61,8 @@ app.get('/styles/:id', checkId, (req, res) => {
       if (data) {
         res.status(200).send({
           product_id: (req.params.id + 37310).toString(),
-          results: data.map((style) => {
-            return formatStyle(style);
+          results: data.map((style, i) => {
+            return formatStyle(style, i);
           })
         });
       } else {
