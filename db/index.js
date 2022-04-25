@@ -35,19 +35,6 @@ module.exports.getStyles = (id) => {
   return get(id)
     .then((product) => {
       if (product) {
-        // var results = [];
-        // for (var i = 0; i < product.styles.length; i++) {
-        //   var style = product.styles[i];
-        //   results.push({
-        //     name: style.name,
-        //     original_price: style.original_price,
-        //     sale_price: style.sale_price,
-        //     'default?': !!style.default_style,
-        //     photos: style.photos.slice(),
-        //     skus: style.skus.slice()
-        //   });
-        // }
-        // return results;
         return product.styles.map((style) => {
           return {
             name: style.name,
