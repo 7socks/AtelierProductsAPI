@@ -39,7 +39,7 @@ const formatStyle = (style, i) => {
 };
 
 
-app.get('/products/:id', (req, res) => {
+app.get('/products/:id', checkId, (req, res) => {
   db.getProduct(req.params.id)
     .then((data) => {
       if (data) {

@@ -1,24 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect(`mongodb://${process.env.DB_HOST}/products`);
 
-class OptionalNumber extends mongoose.SchemaType {
-  constructor(key, options) {
-    super(key, options, 'NumberOrNull');
-  }
-
-  cast(val) {
-    let _val = Number(val);
-
-    if (val === 'null') {
-      return null;
-    } else if (isNaN(_val)) {
-      throw new Error('OptionalNumber: ' + val + ' is not null or a number');
-    } else {
-      return _val;
-    }
-  }
-}
-
 class OptionalString extends mongoose.SchemaType {
   constructor(key, options) {
     super(key, options, 'OptionalString');
@@ -36,7 +18,6 @@ class OptionalString extends mongoose.SchemaType {
 }
 
 mongoose.Schema.Types.OptionalString = OptionalString;
-mongoose.Schema.Types.OptionalNumber = OptionalNumber;
 
 const photoSchema = new mongoose.Schema({
   url: OptionalString,
@@ -92,5 +73,4 @@ const productSchema = new mongoose.Schema({
 
 module.exports = {
   Product: mongoose.model('product', productSchema),
-  Style: mongoose.model('style', styleSchema),
 }
