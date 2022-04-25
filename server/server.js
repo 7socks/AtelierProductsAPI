@@ -4,16 +4,16 @@ const db = require('../db/index.js');
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true}));
 
 const checkId = (req, res, next) => {
   if (isNaN(Number(req.params.id))) {
     res.status(400).send();
   } else {
     req.params.id -= 37310;
-    next();
   }
+  next();
 };
 
 const formatStyle = (style, i) => {
@@ -39,7 +39,7 @@ const formatStyle = (style, i) => {
 };
 
 
-app.get('/products/:id', checkId, (req, res) => {
+app.get('/products/:id', (req, res) => {
   db.getProduct(req.params.id)
     .then((data) => {
       if (data) {

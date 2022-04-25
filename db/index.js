@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const { Product, Style } = require('./models.js');
 
 const get = (id) => {
-  return Product.findOne({ id: id })
-    .then((product) => {
-      return product ? product : null;
-    });
+  return Product.findOne({ id: id }).lean()
 };
 
 module.exports.getProduct = (id) => {
