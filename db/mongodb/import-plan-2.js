@@ -1,3 +1,14 @@
+// Mongo import (terminal)
+/*
+mongoimport --db=products --collection=products --type=csv --headerline --file=product.csv
+mongoimport --db=products --collection=features --type=csv --headerline --file=features.csv
+mongoimport --db=products --collection=related --type=csv --headerline --file=related.csv
+mongoimport --db=products --collection=styles --type=csv --headerline --file=styles.csv
+mongoimport --db=products --collection=skus --type=csv --headerline --file=skus.csv
+mongoimport --db=products --collection=photos --type=csv --headerline --file=photos_2.csv
+*/
+
+
 db.products.createIndex({ id: 1 })
 db.features.createIndex({ product_id: 1 })
 db.related.createIndex({ current_product_id: 1 })
@@ -104,60 +115,4 @@ db.products.aggregate([{
   $unset: ["styles._id", "styles.id", "styles.productId"]
 }, {
   $merge: "products"
-}])
-
-db.products.aggregate([{
-  $lookup: {
-    from: "styles",
-    localField: "id",
-    foreignField: "productId",
-    as: "styles"
-  }
-}, {
-  $project: {
-    id: 1,
-    name: 1,
-    slogan: 1,
-    description: 1,
-    category: 1,
-    default_price: 1,
-    features: {
-      feature: 1,
-      value: 1
-    },
-    related: 1,
-    styles: {
-      name: 1,
-      sale_price: 1,
-      original_price: 1,
-      default_style: 1,
-      skus: {
-        $map: {
-          input: "$styles.skus",
-          as: "sku",
-          in: {
-            "size": "$$sku.size",
-            "quantity": "$$sku.quantity"
-          }
-        }
-      },
-      photos: {
-        url: 1,
-        thumbnail_url: 1
-      }
-    }
-  }
-}])
-
-db.products.aggregate([{
-  $lookup: {
-    from: "styles",
-    localField: "id",
-    foreignField: "productId",
-    as: "styles"
-  }
-}, {
-  $unset: ["styles._id", "styles.id", "styles.productId"]
-}, {
-  $merge: "products"
-}])
+}]);
