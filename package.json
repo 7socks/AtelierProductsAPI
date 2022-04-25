@@ -1,0 +1,34 @@
+{
+  "name": "cumin-api-po",
+  "version": "1.0.0",
+  "description": "Microservice for products API",
+  "main": "index.js",
+  "scripts": {
+    "server": "node server/server.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpicyCumin/cumin-api-po.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SpicyCumin/cumin-api-po/issues"
+  },
+  "homepage": "https://github.com/SpicyCumin/cumin-api-po#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.3.0"
+  },
+  "devDependencies": {
+    "@fast-csv/parse": "^4.3.6",
+    "fast-csv": "^4.3.6",
+    "jest": "^27.5.1"
+  },
+  "jest": {
+    "rootDir": "test/jest"
+  }
+}

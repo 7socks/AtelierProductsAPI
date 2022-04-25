@@ -1,0 +1,12 @@
+config:
+  target: "http://localhost:3300"
+  phases:
+    - duration: 10
+      arrivalRate: 500
+      name: 500 RPS
+
+scenarios:
+  - name: "Request related products of valid product"
+    flow:
+      - get:
+          url: "/related/999890"

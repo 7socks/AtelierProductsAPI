@@ -1,0 +1,85 @@
+mongoimport --db=products --collection=products --type=csv --headerline --file=product.csv
+
+mongoimport --db=products --collection=features --type=csv --headerline --file=features.csv
+
+// TESTED AND FUNCTIONAL MERGE:
+db.products.aggregate([{
+  $lookup:
+      {
+        from: "features",
+        localField: "id",
+        foreignField: "product_id",
+        pipeline: [{
+          $unset: ["_id", "id", "product_id"]
+        }],
+        as: "features"
+      }
+}, {
+  $out: "products"
+}])
+
+db.products.aggregate([{$lookup:{from: "features", localField: "id", foreignField: "product_id", pipeline: [{$unset: ["_id", "id", "product_id"]}], as: "features"}}, {$out: "products"}])
+
+
+mongoimport --db=products --collection=related --type=csv --headerline --file=related.csv
+
+// mock up merge (check csv for proper field names)
+db.products.aggregate([{
+  $lookup: {
+    from: "related",
+    localField: "id",
+    foreignField: "product_id",
+    pipeline: [{
+      $unset: ["_id", "id", "product_id"]
+    }],
+    as: "related"
+  }}, {
+  $out: "products"
+}])
+
+
+
+mongoimport --db=products --collection=styles --type=csv --headerline --file=styles.csv
+mongoimport --db=products --collection=skus --type=csv --headerline --file=skus.csv
+mongoimport --db=products --collection=photos --type=csv --headerline --file=photos_2.csv
+
+// mock up merges (check csvs for field names)
+db.styles.aggregate([{
+  $lookup: {
+    from: "skus",
+    localField: "id",
+    foreignField: "style_id",
+    pipeline: [{
+      $unset: ["_id", "id", "style_id"]
+    }],
+    as: "styles"
+  }}, {
+    $out: "styles"
+  }
+}])
+
+db.styles.aggregate([{
+  $lookup: {
+    from: "photos",
+    localField: "id",
+    foreignField: "style_id",
+    pipeline: [{
+      $unset: ["_id", "id", "style_id"]
+    }],
+    as: "photos"
+  }}, {
+    $out: "styles"
+  }
+}])
+
+// merge styles into products (maybe a bad idea tbh)
+db.products.aggregate([{
+  $lookup: {
+    from: "styles",
+    localField: "id",
+    foreignField: "product_id",
+    pipeline: [{
+
+    }]
+  }
+}])
