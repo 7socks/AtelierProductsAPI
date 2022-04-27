@@ -92,4 +92,5 @@ app.get('/related/:id', checkId, (req, res) => {
 
 app.listen(3300, () => {
   console.log('Listening on port 3300...');
+  db.connect();
 });

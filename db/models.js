@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.connect(`mongodb://${process.env.DB_HOST}/products`);
 
 class OptionalString extends mongoose.SchemaType {
   constructor(key, options) {
@@ -72,5 +71,5 @@ const productSchema = new mongoose.Schema({
 });
 
 module.exports = {
-  Product: mongoose.model('product', productSchema),
+  Product: mongoose.model('product', productSchema)
 }
