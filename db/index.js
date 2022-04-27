@@ -16,7 +16,7 @@ module.exports.connect = async function () {
 };
 
 const get = async (id) => {
-  return Product.findOne({ id: id }).lean();
+  return Product.findOne({ id: id });
 };
 
 module.exports.getProduct = (id) => {
@@ -50,10 +50,13 @@ module.exports.getStyles = (id) => {
     .then((product) => {
       if (product) {
         return product.styles.map((style) => {
+          let salePrice = style.sale_price === 'null'
+            ? null
+            : style.sale_price.toString();
           return {
             name: style.name,
-            original_price: style.original_price,
-            sale_price: style.sale_price,
+            original_price: style.original_price.toString(),
+            sale_price: salePrice,
             'default?': !!style.default_style,
             photos: style.photos,
             skus: style.skus
