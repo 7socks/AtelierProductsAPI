@@ -1,8 +1,22 @@
 const mongoose = require('mongoose');
-const { Product, Style } = require('./models.js');
+mongoose.set('bufferCommands', false);
+const { Product } = require('./models.js');
+const options = {
+  dbName: 'products'
+};
 
-const get = (id) => {
-  return Product.findOne({ id: id }).lean()
+module.exports.connect = async function () {
+  await mongoose.connect(`mongodb://${process.env.DB_HOST}`, options)
+    .then(() => {
+      console.log('Connected to database');
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+const get = async (id) => {
+  return Product.findOne({ id: id }).lean();
 };
 
 module.exports.getProduct = (id) => {
@@ -36,10 +50,13 @@ module.exports.getStyles = (id) => {
     .then((product) => {
       if (product) {
         return product.styles.map((style) => {
+          let salePrice = style.sale_price === 'null'
+            ? null
+            : style.sale_price.toString();
           return {
             name: style.name,
-            original_price: style.original_price,
-            sale_price: style.sale_price,
+            original_price: style.original_price.toString(),
+            sale_price: salePrice,
             'default?': !!style.default_style,
             photos: style.photos,
             skus: style.skus
