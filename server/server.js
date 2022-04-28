@@ -89,6 +89,8 @@ app.get('/related/:id', checkId, (req, res) => {
     })
 })
 
+// Loader.io verification
+app.use(express.static('public'));
 
 app.listen(3300, () => {
   console.log('Listening on port 3300...');
