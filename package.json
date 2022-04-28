@@ -1,8 +1,8 @@
 {
   "name": "cumin-api-po",
   "version": "1.0.0",
-  "description": "Microservice for products API",
-  "main": "index.js",
+  "description": "Service for products API",
+  "main": "server/server.js",
   "scripts": {
     "server": "node server/server.js",
     "test": "jest"
