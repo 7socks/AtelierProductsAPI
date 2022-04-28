@@ -16,7 +16,7 @@ module.exports.connect = async function () {
 };
 
 const get = async (id) => {
-  return Product.findOne({ id: id });
+  return Product.findOne({ id: id }).lean();
 };
 
 module.exports.getProduct = (id) => {
