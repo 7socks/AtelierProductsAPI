@@ -2,3 +2,4 @@ node_modules
 db/raw
 db/export
 .clinic
+.env
